@@ -244,7 +244,7 @@
 
 ;;; Code:
 
-(defconst svn-psvn-revision "2022-04-18, 17:17:16" "The revision date of psvn.")
+(defconst svn-psvn-revision "2022-04-18, 17:20:35" "The revision date of psvn.")
 
 
 (require 'easymenu)
@@ -4477,7 +4477,7 @@ static char * data[] = {
 
 (defsubst svn-status-interprete-state-mode-color (stat)
   "Interpret vc-svn-state symbol to mode line color"
-  (case stat
+  (cl-case stat
     ('edited "tomato"      )
     ('up-to-date "GreenYellow" )
     ;; what is missing here??
