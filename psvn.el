@@ -248,7 +248,7 @@
 
 ;;; Code:
 
-(defconst svn-psvn-revision "2022-04-18, 17:53:31" "The revision date of psvn.")
+(defconst svn-psvn-revision "2022-04-18, 17:56:40" "The revision date of psvn.")
 
 
 (require 'easymenu)
@@ -4472,13 +4472,7 @@ static char * data[] = {
     (ediff-with-current-buffer ediff-buffer-B
                                (svn-status-update-modeline))))
 
-(defun svn-status-update-modeline ()
-  "Update modeline state dot mark properly"
-  (when (and buffer-file-name (svn-status-in-vc-mode?))
-    (svn-status-update-state-mark
-     (svn-status-interprete-state-mode-color
-      (vc-svn-state buffer-file-name)))))
-
+;; ------
 ;; [:todo 2022-04-18, by Pierre Rouleau: check validity and speed of next
 ;; function,which uses cond instead of original case form]
 (defsubst svn-status-interprete-state-mode-color (stat)
@@ -4492,6 +4486,14 @@ static char * data[] = {
    ;; ('deleted  "red"         )
    ;; ('unmerged "purple"      )
    (t                     "red")))
+
+(defun svn-status-update-modeline ()
+  "Update modeline state dot mark properly"
+  (when (and buffer-file-name (svn-status-in-vc-mode?))
+    (svn-status-update-state-mark
+     (svn-status-interprete-state-mode-color
+      (vc-svn-state buffer-file-name)))))
+
 
 ;; --------------------------------------------------------------------------------
 ;; Getting older revisions
