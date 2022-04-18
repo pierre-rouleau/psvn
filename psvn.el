@@ -244,7 +244,7 @@
 
 ;;; Code:
 
-(defconst svn-psvn-revision "2022-04-18, 17:04:42" "The revision date of psvn.")
+(defconst svn-psvn-revision "2022-04-18, 17:17:16" "The revision date of psvn.")
 
 
 (require 'easymenu)
@@ -1000,7 +1000,7 @@ Use this instead of `alist', for XEmacs 21.4 compatibility."
     :value-type 'sexp)
   (defun svn-alist-convert-widget (widget)
     (let* ((value-type (widget-get widget :value-type))
-           (option-widgets (loop for option in (widget-get widget :options)
+           (option-widgets (cl-loop for option in (widget-get widget :options)
                              collect `(cons :format "%v"
                                             (const :format "%t: %v\n"
                                                    :tag "Key"
@@ -1109,7 +1109,7 @@ inside loops."
 
 (defun svn-status-flatten-list (list)
   "Flatten any lists within ARGS, so that there are no sublists."
-  (loop for item in list
+  (cl-loop for item in list
         if (listp item) nconc (svn-status-flatten-list item)
         else collect item))
 
@@ -1255,7 +1255,7 @@ the usual `process-environment'."
   ;; and XEmacs 21.4.17 don't document what happens.  We'll just remove
   ;; any duplicates ourselves, then.  This also gives us an opportunity
   ;; to handle the "VARIABLE" syntax that none of them supports.
-  (loop with found = '()
+  (cl-loop with found = '()
         for elt in (append svn-status-svn-environment-var-list
                            process-environment)
         for has-value = (string-match "=" elt)
@@ -3097,7 +3097,7 @@ Put the found values in `svn-status-base-info'."
     (let ((case-fold-search t)
           (key)
           (val))
-      (loop while (looking-at "\\(.*?\\)\\s-*:\\s-*\\(.*\\)$")
+      (cl-loop while (looking-at "\\(.*?\\)\\s-*:\\s-*\\(.*\\)$")
         do (setq key (intern (concat ":" (downcase (subst-char-in-string ?\  ?- (match-string 1))))))
         (setq val (match-string 2))
         (setq svn-status-base-info (plist-put svn-status-base-info
@@ -3623,14 +3623,14 @@ Unlike `svn-status-marked-files', this does not select the file under point
 if no files have been marked."
   ;; `some' would be shorter but requires cl-seq at runtime.
   ;; (Because it accepts both lists and vectors, it is difficult to inline.)
-  (loop for line-info in svn-status-info
+  (cl-loop for line-info in svn-status-info
         thereis (svn-status-line-info->has-usermark line-info)))
 
 (defun svn-status-only-dirs-or-nothing-marked-p ()
   "Return non-nil iff only dirs has been marked by `svn-status-set-user-mark'."
   ;; `some' would be shorter but requires cl-seq at runtime.
   ;; (Because it accepts both lists and vectors, it is difficult to inline.)
-  (loop for line-info in svn-status-info
+  (cl-loop for line-info in svn-status-info
         thereis (and (not (svn-status-line-info->directory-p line-info))
                      (svn-status-line-info->has-usermark line-info))))
 
