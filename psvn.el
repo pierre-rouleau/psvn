@@ -242,9 +242,13 @@
 ;; impossible to abuse, as the commands that read them are used only in
 ;; buffers that are not visiting any files.  Better safe than sorry.
 
+
+;; [:todo 2022-04-18, by Pierre Rouleau: Convert to lexical-binding to improve
+;; speed and compilation checking]
+
 ;;; Code:
 
-(defconst svn-psvn-revision "2022-04-18, 17:42:54" "The revision date of psvn.")
+(defconst svn-psvn-revision "2022-04-18, 17:53:31" "The revision date of psvn.")
 
 
 (require 'easymenu)
