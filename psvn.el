@@ -244,7 +244,7 @@
 
 ;;; Code:
 
-(defconst svn-psvn-revision "2022-04-18, 17:20:35" "The revision date of psvn.")
+(defconst svn-psvn-revision "2022-04-18, 17:42:54" "The revision date of psvn.")
 
 
 (require 'easymenu)
@@ -4475,17 +4475,19 @@ static char * data[] = {
      (svn-status-interprete-state-mode-color
       (vc-svn-state buffer-file-name)))))
 
+;; [:todo 2022-04-18, by Pierre Rouleau: check validity and speed of next
+;; function,which uses cond instead of original case form]
 (defsubst svn-status-interprete-state-mode-color (stat)
   "Interpret vc-svn-state symbol to mode line color"
-  (cl-case stat
-    ('edited "tomato"      )
-    ('up-to-date "GreenYellow" )
-    ;; what is missing here??
-    ;; ('unknown  "gray"        )
-    ;; ('added    "blue"        )
-    ;; ('deleted  "red"         )
-    ;; ('unmerged "purple"      )
-    (t "red")))
+  (cond
+   ((eq stat 'edited)     "tomato")
+   ((eq stat 'up-to-date) "GreenYellow")
+   ;; what is missing here??
+   ;; ('unknown  "gray"        )
+   ;; ('added    "blue"        )
+   ;; ('deleted  "red"         )
+   ;; ('unmerged "purple"      )
+   (t                     "red")))
 
 ;; --------------------------------------------------------------------------------
 ;; Getting older revisions
